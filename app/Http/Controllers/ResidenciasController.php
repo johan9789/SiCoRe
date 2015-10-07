@@ -13,14 +13,13 @@ use Illuminate\Auth\Guard as Auth;
 use Illuminate\Http\Request;
 use ErrorException;
 
-
 class ResidenciasController extends Controller {
     private $personasProcedures;
     private $request;
     private $auth;
 
     public function __construct(PersonasProcedures $personasProcedures, Request $request, Auth $auth){
-        $this->middleware('auth');
+        // $this->middleware('auth');
         $this->personasProcedures = $personasProcedures;
         $this->request = $request;
         $this->auth = $auth;
@@ -71,9 +70,30 @@ class ResidenciasController extends Controller {
     public function postRegistrarDueno(){
         $formData = $this->request->all();
 
-        dd($formData);
-/*
-        $result = $this->personasProcedures->guardarII(
+
+        /* $connection = DB::connection();
+        $photo = "XDDDDDD";
+
+        $mensaje = "";
+
+        $smt = $connection->getPdo()->prepare("CALL paGuardarPersonaII (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $smt->bindParam(1, $formData['nombres']);
+        $smt->bindParam(2, $formData['paterno']);
+        $smt->bindParam(3, $formData['materno']);
+        $smt->bindParam(4, $formData['tipodocumento']);
+        $smt->bindParam(5, $formData['nrodocumento']);
+        $smt->bindParam(6, $formData['sexo']);
+        $smt->bindParam(7, $formData['cel']);
+        $smt->bindParam(8, $formData['fechanacimiento']);
+        $smt->bindParam(9, $formData['correo']);
+        $smt->bindParam(10, $photo);
+        $smt->bindParam(11, $this->auth->user()->id_usuario);
+        $smt->bindParam(12, $mensaje);
+        $smt->execute();
+
+        return $mensaje; */
+
+        $result = DB::select("CALL paGuardarPersonaII(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @mensaje, @nuevoid)", [
             $formData['nombres'],
             $formData['paterno'],
             $formData['materno'],
@@ -83,14 +103,30 @@ class ResidenciasController extends Controller {
             $formData['cel'],
             $formData['fechanacimiento'],
             $formData['correo'],
-            '',
+            'XD',
+            "XDDDD",
+        ]);
+
+        print_r($result);
+
+        /* $result = $this->personasProcedures->guardarII(
+            $formData['nombres'],
+            $formData['paterno'],
+            $formData['materno'],
+            $formData['tipodocumento'],
+            $formData['nrodocumento'],
+            $formData['sexo'],
+            $formData['cel'],
+            $formData['fechanacimiento'],
+            $formData['correo'],
+            'XD',
             $this->auth->user()->id_usuario
-        );
+        );*/
 
-        if($result->_mensaje == 'ERROR!!'){
+        /* if($result->_mensaje == 'ERROR!!'){
             return 'Error';
-        }
-
+        } */
+/*
         $dueno = new Dueno();
         $dueno->id_persona = $result['varNuevoID'];
         $dueno->nroafiliacion = $formData['nroafiliacion'];

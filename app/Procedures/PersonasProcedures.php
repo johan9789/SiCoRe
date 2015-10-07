@@ -34,7 +34,7 @@ class PersonasProcedures extends Initializer {
                                 '{$foto}',
                                 '{$idUsuario}',
                                 @mensaje
-                            )");
+                            );");
     }
 
 }
